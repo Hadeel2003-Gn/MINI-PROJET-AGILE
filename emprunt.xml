@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Emprunts>
+    <Emprunt>
+        <IdLivre>L_1762952865264_2</IdLivre>
+        <IdClient>CLIENT_1762962389059</IdClient>
+        <Date>2025-11-12</Date>
+        <DateRetour>2025-11-15</DateRetour>
+    </Emprunt>
+    <Emprunt>
+        <IdLivre>L_1762952865269_4</IdLivre>
+        <IdClient>CLIENT_1762962389059</IdClient>
+        <Date>2025-11-14</Date>
+        <DateRetour>2025-11-17</DateRetour>
+    </Emprunt>
+    <Emprunt>
+        <IdLivre>L_1762952865233_0</IdLivre>
+        <IdClient>CLIENT_1763063707473</IdClient>
+        <Date>2025-11-14</Date>
+        <DateRetour>2025-11-17</DateRetour>
+    </Emprunt>
+    <Emprunt>
+        <IdLivre>L_1762952865269_4</IdLivre>
+        <IdClient>CLIENT_1763063707473</IdClient>
+        <Date>2025-11-14</Date>
+        <DateRetour>2025-11-17</DateRetour>
+    </Emprunt>
+    <Emprunt>
+        <IdLivre>L_1762952865266_3</IdLivre>
+        <IdClient>CLIENT_1763063707473</IdClient>
+        <Date>2025-11-14</Date>
+        <DateRetour>2025-11-17</DateRetour>
+    </Emprunt>
+</Emprunts>

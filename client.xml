@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Clients>
+    <Client id="CLIENT_1762962389059">
+        <Nom>gouni</Nom>
+        <Prenom>hadil</Prenom>
+        <Telephone>0791561112</Telephone>
+        <Adresse>el alia</Adresse>
+        <Email>gounihadilasma@gmail.com</Email>
+        <Password>123456</Password>
+    </Client>
+    <Client id="CLIENT_1763063707473">
+        <Nom>lamri</Nom>
+        <Prenom>lina</Prenom>
+        <Telephone>1234567890</Telephone>
+        <Adresse>el-alia</Adresse>
+        <Email>lamrilina044@gmail.com</Email>
+        <Password>1234567</Password>
+    </Client>
+    <Client id="CLIENT_1763119931790">
+        <Nom>kaci</Nom>
+        <Prenom>amina</Prenom>
+        <Telephone>0799456312</Telephone>
+        <Adresse>Meftah-Blida</Adresse>
+        <Email>aminakaci@gmail.com</Email>
+        <Password>12345678</Password>
+    </Client>
+</Clients>
