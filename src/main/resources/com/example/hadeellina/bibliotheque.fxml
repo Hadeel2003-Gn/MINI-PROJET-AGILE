@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.tp1gd.BibliothequeController"
+            style="-fx-background-color: #f5f5f5;">
+
+    <!-- EN-TÊTE AVEC BOUTON DÉCONNEXION -->
+    <top>
+        <VBox spacing="10" style="-fx-background-color: #2196F3; -fx-padding: 15;">
+            <!-- Ligne 1 : Titre et bouton Déconnexion -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="📚 Gestion de la Bibliothèque" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- 🔐 Bouton Déconnexion - Visible seulement si client connecté -->
+                <Button fx:id="btnDeconnexion" text="🚪 Déconnexion" onAction="#onDeconnexion"
+                        style="-fx-background-color: #FF5722; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8 15;"
+                        visible="false"/>
+            </HBox>
+
+            <!-- Ligne 2 : Statistiques (Admin seulement) -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label fx:id="lblTotalLivres" text="📚 Total: 0" style="-fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Label fx:id="lblLivresDisponibles" text="🟢 Disponibles: 0" style="-fx-font-size: 14px; -fx-text-fill: white;"/>
+                <Label fx:id="lblEmpruntsActifs" text="📖 Emprunts: 0" style="-fx-font-size: 14px; -fx-text-fill: white;"/>
+                <Label fx:id="lblClients" text="👥 Clients: 0" style="-fx-font-size: 14px; -fx-text-fill: white;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- CONTENU PRINCIPAL -->
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE" style="-fx-background-color: white;">
+
+            <!-- TAB 1: CONSULTATION DES LIVRES -->
+            <Tab text="📚 Consultation des Livres">
+                <VBox spacing="15" style="-fx-padding: 15;">
+                    <!-- RECHERCHE ET FILTRES -->
+                    <VBox spacing="10" style="-fx-padding: 15; -fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;">
+                        <Label text="🔍 Consultation des Livres" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <TextField fx:id="txtRechercheLivre" promptText="🔍 Rechercher un livre par titre, auteur, année..."
+                                       prefWidth="500" style="-fx-font-size: 13px;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="🔄 Actualiser" onAction="#onRefresh"
+                                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;"/>
+                        </HBox>
+
+                        <!-- FILTRES AVANCÉS -->
+                        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10 0 0 0;">
+                            <Label text="🔧 Filtres:" style="-fx-font-weight: bold;"/>
+                            <ComboBox fx:id="comboFiltreGenre" promptText="Filtrer par genre" prefWidth="150"/>
+                            <ComboBox fx:id="comboFiltreLangue" promptText="Filtrer par langue" prefWidth="150"/>
+                            <CheckBox fx:id="checkDisponiblesSeulement" text="Afficher uniquement les disponibles" selected="true"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- TABLEAU DES LIVRES -->
+                    <VBox spacing="10" VBox.vgrow="ALWAYS">
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="📚 Liste Complète des Livres" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label text="💡 Les modifications se font dans la page 'Gestion des Livres'"
+                                   style="-fx-font-size: 11px; -fx-text-fill: gray;"/>
+                        </HBox>
+
+                        <TableView fx:id="tableLivres" VBox.vgrow="ALWAYS" style="-fx-background-color: white;">
+                            <columns>
+                                <TableColumn fx:id="colTitre" text="Titre" prefWidth="250" style="-fx-font-weight: bold;"/>
+                                <TableColumn fx:id="colAuteurLivre" text="Auteur" prefWidth="180"/>
+                                <TableColumn fx:id="colAnnee" text="Année" prefWidth="80"/>
+                                <TableColumn fx:id="colLangue" text="Langue" prefWidth="90"/>
+                                <TableColumn fx:id="colTotalCopies" text="Total" prefWidth="70"/>
+                                <TableColumn fx:id="colCopiesDisponibles" text="Disponibles" prefWidth="100"/>
+                                <TableColumn fx:id="colCopiesEmpruntees" text="Empruntées" prefWidth="100"/>
+                                <TableColumn fx:id="colISBN" text="ISBN" prefWidth="150"/>
+                                <TableColumn fx:id="colPages" text="Pages" prefWidth="80"/>
+                                <TableColumn fx:id="colGenre" text="Genre" prefWidth="120"/>
+                                <TableColumn fx:id="colEditeur" text="Éditeur" prefWidth="150"/>
+                            </columns>
+                            <placeholder>
+                                <Label text="📭 Aucun livre disponible. Cliquez sur 'Actualiser' pour charger les livres."
+                                       style="-fx-font-size: 14px; -fx-text-fill: gray;"/>
+                            </placeholder>
+                        </TableView>
+                    </VBox>
+
+                </VBox>
+            </Tab>
+
+            <!-- TAB 2: GESTION DES EMPRUNTS -->
+            <Tab text="📖 Gestion des Emprunts">
+                <VBox spacing="15" style="-fx-padding: 15;">
+
+                    <!-- SECTION GESTION DES EMPRUNTS - AVEC STATISTIQUES PERSONNELLES -->
+                    <VBox spacing="10" style="-fx-padding: 15; -fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 5;">
+                        <Label text="📖 Gestion des Emprunts" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+
+                        <!-- 🔥 SECTION : STATISTIQUES PERSONNELLES DU CLIENT -->
+                        <VBox spacing="8" style="-fx-padding: 10; -fx-background-color: #E8F5E8; -fx-border-color: #4CAF50; -fx-border-radius: 5; -fx-border-width: 2;">
+                            <Label text="📊 VOS STATISTIQUES PERSONNELLES" style="-fx-font-weight: bold; -fx-text-fill: #2E7D32; -fx-font-size: 14px;"/>
+
+                            <HBox spacing="20" alignment="CENTER_LEFT">
+                                <!-- Informations du client connecté -->
+                                <VBox spacing="5">
+                                    <Label text="👤 Client connecté :" style="-fx-font-weight: bold; -fx-text-fill: #2196F3;"/>
+                                    <TextField fx:id="txtClientConnecte" editable="false"
+                                               style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #2E7D32;
+                                                      -fx-background-color: transparent; -fx-border-color: transparent;
+                                                      -fx-padding: 5px 0;" prefWidth="300"/>
+                                </VBox>
+
+                                <!-- 🔥 STATISTIQUES DÉTAILLÉES -->
+                                <VBox spacing="5">
+                                    <Label text="📈 Détails des emprunts :" style="-fx-font-weight: bold; -fx-text-fill: #2196F3;"/>
+                                    <HBox spacing="15" alignment="CENTER_LEFT">
+                                        <VBox spacing="2" alignment="CENTER">
+                                            <Label text="📚 Total" style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
+                                            <Label fx:id="lblEmpruntsTotal" text="0" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2196F3;"/>
+                                        </VBox>
+                                        <VBox spacing="2" alignment="CENTER">
+                                            <Label text="🟢 En cours" style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
+                                            <Label fx:id="lblEmpruntsEnCours" text="0" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #4CAF50;"/>
+                                        </VBox>
+                                        <VBox spacing="2" alignment="CENTER">
+                                            <Label text="🔴 En retard" style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
+                                            <Label fx:id="lblEmpruntsRetard" text="0" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #F44336;"/>
+                                        </VBox>
+                                    </HBox>
+                                </VBox>
+                            </HBox>
+                        </VBox>
+
+                        <!-- FORMULAIRE D'EMPRUNT -->
+                        <GridPane hgap="15" vgap="10" style="-fx-padding: 10 0 0 0;">
+                            <Label text="Livre *" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                            <ComboBox fx:id="comboLivres" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="400" promptText="Choisir un livre"/>
+
+                            <Label text="Date d'emprunt *" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                            <DatePicker fx:id="datePicker" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="250"/>
+
+                            <Button text="➕ Ajouter Emprunt" onAction="#onAddEmprunt"
+                                    GridPane.rowIndex="1" GridPane.columnIndex="2" prefWidth="180" prefHeight="40"
+                                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;"/>
+                        </GridPane>
+
+                        <Label text="💡 Sélectionnez un livre et cliquez sur 'Ajouter Emprunt' pour emprunter"
+                               style="-fx-font-size: 11px; -fx-text-fill: #666; -fx-padding: 5 0 0 0;"/>
+                    </VBox>
+
+                    <!-- TABLEAU DES EMPRUNTS -->
+                    <VBox spacing="10" VBox.vgrow="ALWAYS">
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="📋 Liste des Emprunts en Cours" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="🔄 Rafraîchir" onAction="#onRefresh" prefWidth="120" prefHeight="35"
+                                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;"/>
+                            <Button text="🗑️ Retourner livre" onAction="#onDeleteEmprunt" prefWidth="150" prefHeight="35"
+                                    style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;"/>
+                        </HBox>
+
+                        <TableView fx:id="tableGlobal" VBox.vgrow="ALWAYS" style="-fx-background-color: white;">
+                            <columns>
+                                <TableColumn fx:id="colTitreLivre" text="Livre" prefWidth="200" style="-fx-font-weight: bold;"/>
+                                <TableColumn fx:id="colAuteur" text="Auteur" prefWidth="150"/>
+                                <TableColumn fx:id="colNomClient" text="Client" prefWidth="150"/>
+                                <TableColumn fx:id="colTelClient" text="Téléphone" prefWidth="120"/>
+                                <TableColumn fx:id="colDate" text="Date Emprunt" prefWidth="110"/>
+                                <TableColumn fx:id="colDateRetour" text="Date Retour" prefWidth="110"/>
+                                <TableColumn fx:id="colStatut" text="Statut" prefWidth="180"/>
+                            </columns>
+                            <placeholder>
+                                <Label text="📭 Aucun emprunt en cours" style="-fx-font-size: 14px; -fx-text-fill: gray;"/>
+                            </placeholder>
+                        </TableView>
+                    </VBox>
+
+                </VBox>
+            </Tab>
+
+        </TabPane>
+    </center>
+
+    <!-- PIED DE PAGE -->
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-background-color: #37474F; -fx-padding: 10;">
+            <Label text="💡 Consultation des livres | Gestion des emprunts | 🚪 Déconnexion disponible pour les clients connectés"
+                   style="-fx-text-fill: white; -fx-font-size: 11px;"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
