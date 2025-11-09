@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.tp1gd.AuthClientController"
+            style="-fx-background-color: #f8f9fa;">
+
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE" prefWidth="500" prefHeight="550">
+
+            <!-- TAB CONNEXION -->
+            <Tab text="🔐 Connexion">
+                <VBox alignment="CENTER" spacing="20" style="-fx-padding: 30;">
+                    <Label text="Connexion Client" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+                    <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-border-color: #ddd; -fx-border-radius: 10;"
+                          prefWidth="400">
+
+                        <VBox spacing="10">
+                            <Label text="Email *" style="-fx-font-weight: bold;"/>
+                            <TextField fx:id="loginEmail"
+                                       promptText="votre@email.com"
+                                       style="-fx-font-size: 14px; -fx-pref-height: 40;"/>
+
+                            <Label text="Mot de passe *" style="-fx-font-weight: bold;"/>
+                            <PasswordField fx:id="loginPassword"
+                                           promptText="Votre mot de passe"
+                                           style="-fx-font-size: 14px; -fx-pref-height: 40;"
+                                           onAction="#onLogin"/>
+                        </VBox>
+
+                        <Label fx:id="loginMessage"
+                               style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;"
+                               visible="false"/>
+
+                        <Button text="🚪 Se connecter"
+                                onAction="#onLogin"
+                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-pref-height: 45; -fx-cursor: hand;"
+                                defaultButton="true"/>
+                    </VBox>
+                </VBox>
+            </Tab>
+
+            <!-- TAB INSCRIPTION -->
+            <Tab text="👤 Inscription">
+                <ScrollPane fitToWidth="true">
+                    <VBox alignment="CENTER" spacing="20" style="-fx-padding: 30;">
+                        <Label text="Créer un compte" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+                        <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 25; -fx-border-color: #ddd; -fx-border-radius: 10;"
+                              prefWidth="400">
+
+                            <GridPane hgap="10" vgap="10">
+                                <!-- Ligne 1 -->
+                                <Label text="Nom *" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                                <TextField fx:id="regNom" promptText="Votre nom" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="180"/>
+
+                                <Label text="Prénom *" GridPane.rowIndex="0" GridPane.columnIndex="2" style="-fx-font-weight: bold;"/>
+                                <TextField fx:id="regPrenom" promptText="Votre prénom" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="180"/>
+
+                                <!-- Ligne 2 -->
+                                <Label text="Téléphone *" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                                <TextField fx:id="regTelephone" promptText="0555123456" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                                <Label text="Email *" GridPane.rowIndex="1" GridPane.columnIndex="2" style="-fx-font-weight: bold;"/>
+                                <TextField fx:id="regEmail" promptText="votre@email.com" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+                                <!-- Ligne 3 -->
+                                <Label text="Adresse *" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                                <TextField fx:id="regAdresse" promptText="Votre adresse" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.columnSpan="3" prefWidth="370"/>
+
+                                <!-- Ligne 4 -->
+                                <Label text="Mot de passe *" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                                <PasswordField fx:id="regPassword" promptText="Min. 6 caractères" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                                <Label text="Confirmation *" GridPane.rowIndex="3" GridPane.columnIndex="2" style="-fx-font-weight: bold;"/>
+                                <PasswordField fx:id="regConfirmPassword" promptText="Répétez le mot de passe" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+                            </GridPane>
+
+                            <Label fx:id="regMessage"
+                                   style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;"
+                                   visible="false"/>
+
+                            <Button text="✅ Créer mon compte"
+                                    onAction="#onRegister"
+                                    style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-pref-height: 45; -fx-cursor: hand;"/>
+                        </VBox>
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+
+        </TabPane>
+    </center>
+</BorderPane>
